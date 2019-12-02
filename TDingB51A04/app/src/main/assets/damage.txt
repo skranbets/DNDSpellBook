@@ -1,0 +1,17 @@
+Acid
+Cold
+Fire
+Force
+Lightning
+Necrotic
+Poison
+Psychic
+Radiant
+Thunder
+Bludgeoning
+Piercing
+Slashing
+Combat
+Healing
+Utility
+Shapshifting

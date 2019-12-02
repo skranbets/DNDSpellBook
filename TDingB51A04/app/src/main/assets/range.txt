@@ -1,0 +1,28 @@
+Self
+Touch
+Self (10-foot-radius sphere)
+Self (10-foot-radius hemisphere)
+Self (15-foot cone)
+Self (15-foot radius)
+Self (15-foot cube)
+Self (30-foot radius)
+Self (60-foot cone)
+Self (60-foot line)
+Self (100-foot line)
+Self (5-mile radius)
+Sight
+5 feet
+10 feet
+15 feet
+30 feet
+60 feet
+90 feet
+100 feet
+120 feet
+150 feet
+300 feet
+500 feet
+1 mile
+500 miles
+Unlimited
+Special

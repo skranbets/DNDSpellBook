@@ -1,0 +1,16 @@
+Instantaneous
+1 round
+6 rounds
+1 minute
+10 minutes
+1 hour
+2 hours
+8 hours
+24 hours
+1 day
+7 days
+10 days
+30 days
+Special
+Until dispelled
+Until dispelled or triggered

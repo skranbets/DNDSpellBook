@@ -1,0 +1,9 @@
+STR Save
+DEX Save
+CON Save
+INT Save
+WIS Save
+CHA Save
+Ranged
+Melee
+None

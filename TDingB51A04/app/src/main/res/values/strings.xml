@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">5th Spell Book</string>
+    <string name="txtMenuView">View all spells</string>
+    <string name="txtMenuBook">View my spellbook</string>
+    <string name="txtMenuAdd">Add custom spell</string>
+    <string name="placeholder_search"> Search by name</string>
+</resources>
