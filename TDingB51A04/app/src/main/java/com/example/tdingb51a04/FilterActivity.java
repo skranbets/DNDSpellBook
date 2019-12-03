@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -56,75 +58,140 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                switch (groupPosition){
-                    case(0):
-                        if(classIds.contains(childPosition))
-                            classIds.remove(childPosition);
-                        else
+                switch (groupPosition) {
+                    case (0):
+                        if (classIds.contains(childPosition)){
+                            ((CheckBox)((LinearLayout) v).getChildAt(1)).setChecked(false);
+                            classIds.remove(classIds.indexOf(childPosition));
+                        }
+                        else {
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(true);
                             classIds.add(childPosition);
+                        }
                         break;
-                    case(1):
-                        if(levelIds.contains(childPosition))
-                            levelIds.remove(childPosition);
-                        else
+                    case (1):
+                        if (levelIds.contains(childPosition)) {
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(false);
+                            levelIds.remove(levelIds.indexOf(childPosition));
+                        }
+                        else {
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(true);
                             levelIds.add(childPosition);
+                        }
                         break;
-                    case(2):
-
-                        if(sourceIds.contains(childPosition))
-                            sourceIds.remove(childPosition);
-                        else
+                    case (2):
+                        if (sourceIds.contains(childPosition)) {
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(false);
+                            sourceIds.remove(sourceIds.indexOf(childPosition));
+                        }
+                        else{
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(true);
                             sourceIds.add(childPosition);
+                        }
                         break;
-                    case(3):
-
-                        if(schoolIds.contains(childPosition))
-                            schoolIds.remove(childPosition);
-                        else
+                    case (3):
+                        if (schoolIds.contains(childPosition)) {
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(false);
+                            schoolIds.remove(schoolIds.indexOf(childPosition));
+                        }
+                        else{
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(true);
                             schoolIds.add(childPosition);
+                        }
                         break;
-                    case(4):
-                        if(filterOnConcentration)
-                            filterOnConcentration = !(childPosition == 0);
+                    case (4):
+                        boolean isCheckedConc = ((CheckBox) ((LinearLayout) v)
+                                .getChildAt(1)).isChecked();
+                        if(isCheckedConc)
+                            ((CheckBox) ((LinearLayout) v)
+                                    .getChildAt(1)).setChecked(false);
                         else
-                            filterOnConcentration = childPosition == 0;
+                            ((CheckBox) ((LinearLayout) v)
+                                .getChildAt(1)).setChecked(true);
+                        isCheckedConc = ((CheckBox) ((LinearLayout) v)
+                                .getChildAt(1)).isChecked();
+                        //yes
+                        if(childPosition == 0){
+                            filterOnConcentration = isCheckedConc;
+                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+2))
+                                        .getChildAt(1)).setChecked(false);
+                        }
+                        //no
+                        else{
+                            filterOnConcentration = !isCheckedConc;
+                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+1))
+                                    .getChildAt(1)).setChecked(false);
+                        }
                         break;
-                    case(5):
-                        if(filterOnRitual)
-                            filterOnRitual = !(childPosition == 0);
+                    case (5):
+                        boolean isCheckedRit = ((CheckBox) ((LinearLayout) v)
+                                .getChildAt(1)).isChecked();
+                        if(isCheckedRit)
+                            ((CheckBox) ((LinearLayout) v)
+                                    .getChildAt(1)).setChecked(false);
                         else
-                            filterOnRitual = childPosition == 0;
+                            ((CheckBox) ((LinearLayout) v)
+                                    .getChildAt(1)).setChecked(true);
+                        isCheckedRit = ((CheckBox) ((LinearLayout) v)
+                                .getChildAt(1)).isChecked();
+                        //yes
+                        if(childPosition == 0){
+                            filterOnRitual = isCheckedRit;
+                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+2))
+                                    .getChildAt(1)).setChecked(false);
+                        }
+                        //no
+                        else{
+                            filterOnRitual = !isCheckedRit;
+                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+1))
+                                    .getChildAt(1)).setChecked(false);
+                        }
                         break;
-                    case(6):
-                        switch (childPosition){
-                            case(0):
-                                if(filterOnVerbal)
+                    case (6):
+                        switch (childPosition) {
+                            case (0):
+                                if (filterOnVerbal)
                                     filterOnVerbal = false;
                                 else
                                     filterOnVerbal = true;
+                                ((CheckBox) ((LinearLayout) v)
+                                        .getChildAt(1)).setChecked(filterOnVerbal);
                                 break;
-                            case(1):
-                                if(filterOnSomatic)
+                            case (1):
+                                if (filterOnSomatic)
                                     filterOnSomatic = false;
                                 else
                                     filterOnSomatic = true;
+                                ((CheckBox) ((LinearLayout) v)
+                                        .getChildAt(1)).setChecked(filterOnSomatic);
                                 break;
-                            case(2):
-                                if(filterOnMaterial)
+                            case (2):
+                                if (filterOnMaterial)
                                     filterOnMaterial = false;
                                 else
                                     filterOnMaterial = true;
+                                ((CheckBox) ((LinearLayout) v)
+                                        .getChildAt(1)).setChecked(filterOnMaterial);
                         }
                         break;
 
 
-                    case(7):
-                        if(effectIds.contains(childPosition))
-                            effectIds.remove(childPosition);
-                        else
+                    case (7):
+                        if (effectIds.contains(childPosition)) {
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(false);
+                            effectIds.remove(effectIds.indexOf(childPosition));
+                        }
+                        else{
+                            ((CheckBox) ((LinearLayout) v).getChildAt(1)).setChecked(true);
                             effectIds.add(childPosition);
+                        }
                         break;
                 }
+                Toast.makeText(
+                        getApplicationContext(),
+                        listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),
+                        Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
