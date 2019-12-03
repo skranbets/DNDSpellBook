@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private Context mCtx; //<-- declare a Context reference
     private static final String DATABASE_NAME = "DnDSpells.db";
 

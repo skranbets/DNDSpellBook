@@ -41,6 +41,9 @@ public class FilterListAdapter extends BaseExpandableListAdapter {
 
         final String childText = (String) getChild(groupPosition, childPosition);
 
+        // The child views in each row.
+        CheckBox checkBox;
+        TextView textView;
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
