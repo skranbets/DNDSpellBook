@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 9;
     private Context mCtx; //<-- declare a Context reference
     private static final String DATABASE_NAME = "DnDSpells.db";
 
@@ -280,90 +280,21 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<Spell> getAllSpells() {
-        ArrayList<Spell> spell_list = new ArrayList<Spell>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME, null);
-        res.moveToFirst();
-        while (!res.isAfterLast()) {
-            Spell currentSpell = new Spell(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_ID)),
-                    res.getString(res.getColumnIndex(SPELL_COLUMN_NAME)),
-                    res.getString(res.getColumnIndex(SPELL_COLUMN_DESCRIPTION)),
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_VERBAL)) == 1,
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_SOMATIC)) == 1,
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_MATERIAL)) == 1,
-                    res.getString(res.getColumnIndex(SPELL_COLUMN_MATERIALNAME)),
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_CONCENTRATION)) == 1,
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_RITUAL)) == 1);
-            currentSpell.setSpellAttack(getSpellAttackById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_ATTACKID))));
-            currentSpell.setSpellCasting(getCastingTimeById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_CASTINGID))));
-            currentSpell.setSpellDamage(getDamageTypeById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_DAMAGEID))));
-            currentSpell.setSpellDuration(getDurationById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_DURATIONID))));
 
-            currentSpell.setClasses(getPlayerClassBySpellId(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_ID))
-            ));
-            currentSpell.setSpellRange(getRangeById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_RANGEID))));
-
-            currentSpell.setSpellSchool(getSpellSchoolById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_SCHOOLID))));
-            currentSpell.setSpellSource(getSourceById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_SOURCEID))));
-            currentSpell.setSpellLevel(getSpellLevelById(
-                    res.getInt(res.getColumnIndex(SPELL_COLUMN_SPELLLEVELID))));
-            spell_list.add(currentSpell);
-            res.moveToNext();
-        }
-        res.close();
-        return spell_list;
+        return loopThroughSpell(res);
     }
 
     public Spell getSpellById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME + " where " +
                 SPELL_COLUMN_ID + "=" + id + "", null);
-        res.moveToFirst();
-        Spell currentSpell = new Spell(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_ID)),
-                res.getString(res.getColumnIndex(SPELL_COLUMN_NAME)),
-                res.getString(res.getColumnIndex(SPELL_COLUMN_DESCRIPTION)),
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_VERBAL)) == 1,
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_SOMATIC)) == 1,
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_MATERIAL)) == 1,
-                res.getString(res.getColumnIndex(SPELL_COLUMN_MATERIALNAME)),
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_CONCENTRATION)) == 1,
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_RITUAL)) == 1);
-        currentSpell.setSpellAttack(getSpellAttackById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_ATTACKID))));
-        currentSpell.setSpellCasting(getCastingTimeById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_CASTINGID))));
-        currentSpell.setSpellDamage(getDamageTypeById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_DAMAGEID))));
-        currentSpell.setSpellDuration(getDurationById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_DURATIONID))));
 
-        currentSpell.setClasses(getPlayerClassBySpellId(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_ID))
-        ));
-        currentSpell.setSpellRange(getRangeById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_RANGEID))));
-
-        currentSpell.setSpellSchool(getSpellSchoolById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_SCHOOLID))));
-        currentSpell.setSpellSource(getSourceById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_SOURCEID))));
-        currentSpell.setSpellLevel(getSpellLevelById(
-                res.getInt(res.getColumnIndex(SPELL_COLUMN_SPELLLEVELID))));
-        res.close();
-        return currentSpell;
+        return loopThroughSpell(res).get(0);
     }
 
-    public ArrayList<CastingTime> getCastingTimes(){
+    public ArrayList<CastingTime> getCastingTimes() {
         ArrayList<CastingTime> casting_time_list = new ArrayList<CastingTime>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME, null);
@@ -461,7 +392,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<PlayerClass> getPlayerClasses(){
+    public ArrayList<PlayerClass> getPlayerClasses() {
         ArrayList<PlayerClass> class_list = new ArrayList<PlayerClass>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + CLASS_TABLE_NAME, null);
@@ -475,6 +406,7 @@ public class DBHandler extends SQLiteOpenHelper {
         res.close();
         return class_list;
     }
+
     public PlayerClass getPlayerClassById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + CLASS_TABLE_NAME + " where " +
@@ -503,6 +435,7 @@ public class DBHandler extends SQLiteOpenHelper {
         res.close();
         return range_list;
     }
+
     public Range getRangeById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + RANGE_TABLE_NAME + " where " +
@@ -513,6 +446,7 @@ public class DBHandler extends SQLiteOpenHelper {
         r.setRangeName(res.getString(res.getColumnIndex(RANGE_COLUMN_NAME)));
         return r;
     }
+
     public ArrayList<Source> getSources() {
         ArrayList<Source> source_list = new ArrayList<Source>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -539,6 +473,7 @@ public class DBHandler extends SQLiteOpenHelper {
         source.setSourceName(res.getString(res.getColumnIndex(SOURCE_COLUMN_NAME)));
         return source;
     }
+
     public ArrayList<SpellAttack> getSpellAttacks() {
         ArrayList<SpellAttack> attack_list = new ArrayList<SpellAttack>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -565,6 +500,7 @@ public class DBHandler extends SQLiteOpenHelper {
         a.setSpellAttackName(res.getString(res.getColumnIndex(ATTACK_COLUMN_NAME)));
         return a;
     }
+
     public ArrayList<SpellLevel> getSpellLevels() {
         ArrayList<SpellLevel> level_list = new ArrayList<SpellLevel>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -591,6 +527,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sl.setSpellLevelName(res.getString(res.getColumnIndex(LEVEL_COLUMN_NAME)));
         return sl;
     }
+
     public ArrayList<SpellSchool> getSpellSchools() {
         ArrayList<SpellSchool> school_list = new ArrayList<SpellSchool>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -618,11 +555,64 @@ public class DBHandler extends SQLiteOpenHelper {
         return ss;
     }
 
+
     public ArrayList<Spell> searchSpells(String toString) {
-        ArrayList<Spell> spell_list = new ArrayList<Spell>();
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME + " where " +
                 SPELL_COLUMN_NAME + " LIKE  '%" + toString + "%'", null);
+
+        return loopThroughSpell(res);
+    }
+
+    public ArrayList<Spell> filterSpells(ArrayList<Integer> classIds,
+                                         ArrayList<Integer> levelIds,
+                                         ArrayList<Integer> sourceIds,
+                                         ArrayList<Integer> schoolIds,
+                                         ArrayList<Integer> effectIds,
+                                         ArrayList<Integer> filterOnConcentrations,
+                                         ArrayList<Integer> filterOnRituals,
+//    boolean filterOnConcentration;
+//    boolean filterOnRitual;
+                                         boolean filterOnVerbal,
+                                         boolean filterOnSomatic,
+                                         boolean filterOnMaterial) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String basicSql = "select * from " + SPELL_TABLE_NAME + " where 1=1 ";
+//        basicSql += generateWhereInValues(classIds);
+        basicSql += generateWhereInValues(levelIds, SPELL_COLUMN_SPELLLEVELID);
+        basicSql += generateWhereInValues(sourceIds, SPELL_COLUMN_SOURCEID);
+        basicSql += generateWhereInValues(schoolIds, SPELL_COLUMN_SCHOOLID);
+        basicSql += generateWhereInValues(effectIds,SPELL_COLUMN_DAMAGEID);
+        basicSql += generateWhereInValues(filterOnConcentrations, SPELL_COLUMN_CONCENTRATION);
+        basicSql += generateWhereInValues(filterOnRituals, SPELL_COLUMN_RITUAL);
+        if(filterOnVerbal)
+            basicSql += "AND "+SPELL_COLUMN_VERBAL+" = 1 ";
+        if(filterOnSomatic)
+            basicSql += "AND "+SPELL_COLUMN_SOMATIC+" = 1 ";
+        if(filterOnMaterial)
+            basicSql += "AND "+SPELL_COLUMN_MATERIAL+" = 1 ";
+
+        Cursor res = db.rawQuery(basicSql, null);
+        return loopThroughSpell(res);
+
+    }
+    private String generateWhereInValues(ArrayList<Integer> list, String columnName){
+        String whereStatement = "";
+        if(list.size()!=0){
+            String values = "(";
+            for(int item:list){
+                values+=item+", ";
+            }
+            values = values.substring(0, values.length() - 2);
+            values += ")";
+            whereStatement += "AND "+columnName+" IN "+values+" ";
+        }
+        return whereStatement;
+    }
+
+    private ArrayList<Spell> loopThroughSpell(Cursor res){
+        ArrayList<Spell> spell_list = new ArrayList<Spell>();
         res.moveToFirst();
         while (!res.isAfterLast()) {
             Spell currentSpell = new Spell(

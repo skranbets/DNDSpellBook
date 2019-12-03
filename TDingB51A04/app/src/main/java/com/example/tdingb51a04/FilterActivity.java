@@ -2,8 +2,10 @@ package com.example.tdingb51a04;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -20,13 +22,15 @@ public class FilterActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     DBHandler dbController;
-    List<Integer> classIds;
-    List<Integer> levelIds;
-    List<Integer> sourceIds;
-    List<Integer> schoolIds;
-    List<Integer> effectIds;
-    boolean filterOnConcentration;
-    boolean filterOnRitual;
+    ArrayList<Integer> classIds;
+    ArrayList<Integer> levelIds;
+    ArrayList<Integer> sourceIds;
+    ArrayList<Integer> schoolIds;
+    ArrayList<Integer> effectIds;
+    ArrayList<Integer> filterOnConcentrations;
+    ArrayList<Integer> filterOnRituals;
+//    boolean filterOnConcentration;
+//    boolean filterOnRitual;
     boolean filterOnVerbal;
     boolean filterOnSomatic;
     boolean filterOnMaterial;
@@ -58,9 +62,10 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                FilterListViewHandler viewHolder = (FilterListViewHandler) v
-                        .getTag();
-                CheckBox checkBox = viewHolder.getCheckBox();
+//                FilterListViewHandler viewHolder = (FilterListViewHandler) v
+//                        .getTag();
+//                CheckBox checkBox = viewHolder.getCheckBox();
+                CheckBox checkBox = (CheckBox)((LinearLayout)v).getChildAt(1);
                 switch (groupPosition) {
                     case (0):
                         if (classIds.contains(childPosition)){
@@ -103,44 +108,60 @@ public class FilterActivity extends AppCompatActivity {
                         }
                         break;
                     case (4):
-                        boolean isCheckedConc = checkBox.isChecked();
-                        if(isCheckedConc)
+                        if (filterOnConcentrations.contains(childPosition)) {
                             checkBox.setChecked(false);
-                        else
-                            checkBox.setChecked(true);
-                        isCheckedConc = checkBox.isChecked();
-                        //yes
-                        if(childPosition == 0){
-                            filterOnConcentration = isCheckedConc;
-                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+2))
-                                        .getChildAt(1)).setChecked(false);
+                            filterOnConcentrations.remove(filterOnConcentrations.indexOf(childPosition));
                         }
-                        //no
                         else{
-                            filterOnConcentration = !isCheckedConc;
-                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+1))
-                                    .getChildAt(1)).setChecked(false);
+                            checkBox.setChecked(true);
+                            filterOnConcentrations.add(childPosition);
                         }
+//                        boolean isCheckedConc = checkBox.isChecked();
+//                        if(isCheckedConc)
+//                            checkBox.setChecked(false);
+//                        else
+//                            checkBox.setChecked(true);
+//                        isCheckedConc = checkBox.isChecked();
+//                        //yes
+//                        if(childPosition == 0){
+//                            filterOnConcentration = isCheckedConc;
+//                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+2))
+//                                        .getChildAt(1)).setChecked(false);
+//                        }
+//                        //no
+//                        else{
+//                            filterOnConcentration = !isCheckedConc;
+//                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+1))
+//                                    .getChildAt(1)).setChecked(false);
+//                        }
                         break;
                     case (5):
-                        boolean isCheckedRit = checkBox.isChecked();
-                        if(isCheckedRit)
+                        if (filterOnRituals.contains(childPosition)) {
                             checkBox.setChecked(false);
-                        else
-                            checkBox.setChecked(true);
-                        isCheckedRit = checkBox.isChecked();
-                        //yes
-                        if(childPosition == 0){
-                            filterOnRitual = isCheckedRit;
-                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+2))
-                                    .getChildAt(1)).setChecked(false);
+                            filterOnRituals.remove(filterOnRituals.indexOf(childPosition));
                         }
-                        //no
                         else{
-                            filterOnRitual = !isCheckedRit;
-                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+1))
-                                    .getChildAt(1)).setChecked(false);
+                            checkBox.setChecked(true);
+                            filterOnRituals.add(childPosition);
                         }
+//                        boolean isCheckedRit = checkBox.isChecked();
+//                        if(isCheckedRit)
+//                            checkBox.setChecked(false);
+//                        else
+//                            checkBox.setChecked(true);
+//                        isCheckedRit = checkBox.isChecked();
+//                        //yes
+//                        if(childPosition == 0){
+//                            filterOnRitual = isCheckedRit;
+//                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+2))
+//                                    .getChildAt(1)).setChecked(false);
+//                        }
+//                        //no
+//                        else{
+//                            filterOnRitual = !isCheckedRit;
+//                            ((CheckBox) ((LinearLayout) parent.getChildAt(groupPosition+1))
+//                                    .getChildAt(1)).setChecked(false);
+//                        }
                         break;
                     case (6):
                         switch (childPosition) {
@@ -187,6 +208,24 @@ public class FilterActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        Button searchBtn = findViewById(R.id.btnSearch);
+        searchBtn.setOnClickListener((View v)->{
+            Bundle bundle = new Bundle();
+            bundle.putIntegerArrayList("classes", classIds);
+            bundle.putIntegerArrayList("levels", levelIds);
+            bundle.putIntegerArrayList("sources", sourceIds);
+            bundle.putIntegerArrayList("schools", schoolIds);
+            bundle.putIntegerArrayList("effects", effectIds);
+            bundle.putIntegerArrayList("concentrations", filterOnConcentrations);
+            bundle.putIntegerArrayList("rituals", filterOnRituals);
+            bundle.putBoolean("isVerbal", filterOnVerbal);
+            bundle.putBoolean("isSomatic", filterOnSomatic);
+            bundle.putBoolean("isMaterial", filterOnMaterial);
+            Intent intent = new Intent(getBaseContext(), ViewAllSpells.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
     }
 
     private void resetFilter() {
@@ -195,8 +234,10 @@ public class FilterActivity extends AppCompatActivity {
         sourceIds = new ArrayList<Integer>();
         schoolIds = new ArrayList<Integer>();
         effectIds = new ArrayList<Integer>();
-        filterOnConcentration = false;
-        filterOnRitual = false;
+        filterOnConcentrations = new ArrayList<Integer>();
+        filterOnRituals = new ArrayList<Integer>();
+//        filterOnConcentration = false;
+//        filterOnRitual = false;
         filterOnVerbal = false;
         filterOnSomatic = false;
         filterOnMaterial = false;

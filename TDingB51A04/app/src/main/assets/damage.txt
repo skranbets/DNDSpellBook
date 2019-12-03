@@ -1,17 +1,8 @@
-Acid
-Cold
-Fire
-Force
-Lightning
-Necrotic
-Poison
-Psychic
-Radiant
-Thunder
-Bludgeoning
-Piercing
-Slashing
-Combat
+Magical Damage
+Physical Damage
+Condition
+Buff
+Debuff
 Healing
 Utility
-Shapshifting
+Shapeshifting
