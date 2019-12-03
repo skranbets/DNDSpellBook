@@ -2,9 +2,12 @@ package com.example.tdingb51a04;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
@@ -34,7 +37,7 @@ public class ViewAllSpells extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
-                ArrayList<Spell> spellList = dbController.filterSpell(s.toString());
+                ArrayList<Spell> spellList = dbController.searchSpells(s.toString());
                 myAdapter = new SpellAdapter(getApplicationContext(),spellList);
                 lstView.setAdapter(myAdapter);
             }
@@ -49,6 +52,11 @@ public class ViewAllSpells extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
+        });
+        Button btnMenu = findViewById(R.id.btnFilter);
+        btnMenu.setOnClickListener((View v)->{
+            Intent intent = new Intent(this, FilterActivity.class);
+            startActivity(intent);
         });
     }
 }

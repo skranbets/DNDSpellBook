@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
-            android:backgroundTint="#ADBF9E"
+            android:backgroundTint="@color/dndGreen"
             android:fontFamily="@font/scaly"
             android:padding="0dp"
             android:text="☰" />

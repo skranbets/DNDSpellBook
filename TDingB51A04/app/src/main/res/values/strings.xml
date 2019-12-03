@@ -4,4 +4,6 @@
     <string name="txtMenuBook">View my spellbook</string>
     <string name="txtMenuAdd">Add custom spell</string>
     <string name="placeholder_search"> Search by name</string>
+    <string name="button_search">Search</string>
+    <string name="filter_title">Filtering options</string>
 </resources>

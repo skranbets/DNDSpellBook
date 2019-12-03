@@ -88,6 +88,7 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mCtx = context;
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
@@ -95,14 +96,13 @@ public class DBHandler extends SQLiteOpenHelper {
                         " (" + ATTACK_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         ATTACK_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"attack.txt", ATTACK_TABLE_NAME, ATTACK_COLUMN_NAME);
+        seedData(db, "attack.txt", ATTACK_TABLE_NAME, ATTACK_COLUMN_NAME);
         db.execSQL(
                 "create table " + CASTING_TABLE_NAME +
                         " (" + CASTING_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         CASTING_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"casting.txt", CASTING_TABLE_NAME, CASTING_COLUMN_NAME);
-
+        seedData(db, "casting.txt", CASTING_TABLE_NAME, CASTING_COLUMN_NAME);
 
 
         db.execSQL(
@@ -110,28 +110,27 @@ public class DBHandler extends SQLiteOpenHelper {
                         " (" + CLASS_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         CLASS_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"class.txt", CLASS_TABLE_NAME, CLASS_COLUMN_NAME);
+        seedData(db, "class.txt", CLASS_TABLE_NAME, CLASS_COLUMN_NAME);
 
         db.execSQL(
                 "create table " + DAMAGE_TABLE_NAME +
                         " (" + DAMAGE_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         DAMAGE_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"damage.txt", DAMAGE_TABLE_NAME,DAMAGE_COLUMN_NAME);
+        seedData(db, "damage.txt", DAMAGE_TABLE_NAME, DAMAGE_COLUMN_NAME);
         db.execSQL(
                 "create table " + DURATION_TABLE_NAME +
                         " (" + DURATION_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         DURATION_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"duration.txt", DURATION_TABLE_NAME,DURATION_COLUMN_NAME);
+        seedData(db, "duration.txt", DURATION_TABLE_NAME, DURATION_COLUMN_NAME);
 
         db.execSQL(
                 "create table " + LEVEL_TABLE_NAME +
                         " (" + LEVEL_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         LEVEL_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"level.txt", LEVEL_TABLE_NAME,LEVEL_COLUMN_NAME);
-
+        seedData(db, "level.txt", LEVEL_TABLE_NAME, LEVEL_COLUMN_NAME);
 
 
         db.execSQL(
@@ -139,59 +138,59 @@ public class DBHandler extends SQLiteOpenHelper {
                         " (" + SCHOOL_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         SCHOOL_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"school.txt", SCHOOL_TABLE_NAME,SCHOOL_COLUMN_NAME);
+        seedData(db, "school.txt", SCHOOL_TABLE_NAME, SCHOOL_COLUMN_NAME);
         db.execSQL(
                 "create table " + SOURCE_TABLE_NAME +
                         " (" + SOURCE_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         SOURCE_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"source.txt", SOURCE_TABLE_NAME,SOURCE_COLUMN_NAME);
+        seedData(db, "source.txt", SOURCE_TABLE_NAME, SOURCE_COLUMN_NAME);
 
         db.execSQL(
                 "create table " + RANGE_TABLE_NAME +
                         " (" + RANGE_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         RANGE_COLUMN_NAME + " text NOT NULL)"
         );
-        seedData(db,"range.txt", RANGE_TABLE_NAME,RANGE_COLUMN_NAME);
+        seedData(db, "range.txt", RANGE_TABLE_NAME, RANGE_COLUMN_NAME);
 
         db.execSQL(
                 "create table " + SPELL_TABLE_NAME +
                         " (" + SPELL_COLUMN_ID + " integer primary key AUTOINCREMENT NOT NULL, " +
                         SPELL_COLUMN_NAME + " text NOT NULL," +
                         SPELL_COLUMN_DESCRIPTION + " text NOT NULL," +
-                        SPELL_COLUMN_SCHOOLID+" INTEGER NOT NULL REFERENCES "+
-                        SCHOOL_TABLE_NAME+"("+SCHOOL_COLUMN_ID+"),"+
-                        SPELL_COLUMN_ATTACKID+" INTEGER NOT NULL REFERENCES "+
-                        ATTACK_TABLE_NAME+"("+ATTACK_COLUMN_ID+"),"+
-                        SPELL_COLUMN_CASTINGID+" INTEGER NOT NULL REFERENCES "+
-                        CASTING_TABLE_NAME+"("+CASTING_COLUMN_ID+"),"+
-                        SPELL_COLUMN_DAMAGEID+" INTEGER NOT NULL REFERENCES "+
-                        DAMAGE_TABLE_NAME+"("+DAMAGE_COLUMN_ID+"),"+
-                        SPELL_COLUMN_DURATIONID+" INTEGER NOT NULL REFERENCES "+
-                        DURATION_TABLE_NAME+"("+DURATION_COLUMN_ID+"),"+
-                        SPELL_COLUMN_RANGEID+" INTEGER NOT NULL REFERENCES "+
-                        RANGE_TABLE_NAME+"("+RANGE_COLUMN_ID+"),"+
-                        SPELL_COLUMN_SOURCEID+" INTEGER NOT NULL REFERENCES "+
-                        SOURCE_TABLE_NAME+"("+SOURCE_COLUMN_ID+"),"+
+                        SPELL_COLUMN_SCHOOLID + " INTEGER NOT NULL REFERENCES " +
+                        SCHOOL_TABLE_NAME + "(" + SCHOOL_COLUMN_ID + ")," +
+                        SPELL_COLUMN_ATTACKID + " INTEGER NOT NULL REFERENCES " +
+                        ATTACK_TABLE_NAME + "(" + ATTACK_COLUMN_ID + ")," +
+                        SPELL_COLUMN_CASTINGID + " INTEGER NOT NULL REFERENCES " +
+                        CASTING_TABLE_NAME + "(" + CASTING_COLUMN_ID + ")," +
+                        SPELL_COLUMN_DAMAGEID + " INTEGER NOT NULL REFERENCES " +
+                        DAMAGE_TABLE_NAME + "(" + DAMAGE_COLUMN_ID + ")," +
+                        SPELL_COLUMN_DURATIONID + " INTEGER NOT NULL REFERENCES " +
+                        DURATION_TABLE_NAME + "(" + DURATION_COLUMN_ID + ")," +
+                        SPELL_COLUMN_RANGEID + " INTEGER NOT NULL REFERENCES " +
+                        RANGE_TABLE_NAME + "(" + RANGE_COLUMN_ID + ")," +
+                        SPELL_COLUMN_SOURCEID + " INTEGER NOT NULL REFERENCES " +
+                        SOURCE_TABLE_NAME + "(" + SOURCE_COLUMN_ID + ")," +
 
-                        SPELL_COLUMN_SPELLLEVELID+" INTEGER NOT NULL REFERENCES "+
-                        LEVEL_TABLE_NAME+"("+LEVEL_COLUMN_ID+"), "+
-                        SPELL_COLUMN_CONCENTRATION +" integer not null default 0,"+
-                        SPELL_COLUMN_RITUAL +" integer not null default 0,"+
-                        SPELL_COLUMN_VERBAL +" integer not null default 0,"+
-                        SPELL_COLUMN_SOMATIC +" integer not null default 0,"+
-                        SPELL_COLUMN_MATERIAL +" integer not null default 0,"+
-                        SPELL_COLUMN_MATERIALNAME +" Text"+
+                        SPELL_COLUMN_SPELLLEVELID + " INTEGER NOT NULL REFERENCES " +
+                        LEVEL_TABLE_NAME + "(" + LEVEL_COLUMN_ID + "), " +
+                        SPELL_COLUMN_CONCENTRATION + " integer not null default 0," +
+                        SPELL_COLUMN_RITUAL + " integer not null default 0," +
+                        SPELL_COLUMN_VERBAL + " integer not null default 0," +
+                        SPELL_COLUMN_SOMATIC + " integer not null default 0," +
+                        SPELL_COLUMN_MATERIAL + " integer not null default 0," +
+                        SPELL_COLUMN_MATERIALNAME + " Text" +
                         ")"
         );
 
         BufferedReader reader;
-        try{
+        try {
             final InputStream file = mCtx.getAssets().open("spell.txt");
             reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
-            while(line != null){
-                String [] values = line.split("~");
+            while (line != null) {
+                String[] values = line.split("~");
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(SPELL_COLUMN_NAME, values[0]);
                 contentValues.put(SPELL_COLUMN_DESCRIPTION, values[1]);
@@ -202,7 +201,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 contentValues.put(SPELL_COLUMN_DURATIONID, Integer.parseInt(values[6]));
                 contentValues.put(SPELL_COLUMN_RANGEID, Integer.parseInt(values[7]));
                 contentValues.put(SPELL_COLUMN_SOURCEID, Integer.parseInt(values[8]));
-                contentValues.put(SPELL_COLUMN_SPELLLEVELID, Integer.parseInt(values[9])+1);
+                contentValues.put(SPELL_COLUMN_SPELLLEVELID, Integer.parseInt(values[9]) + 1);
                 contentValues.put(SPELL_COLUMN_CONCENTRATION, Integer.parseInt(values[10]));
                 contentValues.put(SPELL_COLUMN_RITUAL, Integer.parseInt(values[11]));
                 contentValues.put(SPELL_COLUMN_VERBAL, Integer.parseInt(values[12]));
@@ -220,18 +219,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 "create table " + SPELLCLASS_TABLE_NAME +
                         " (" + SPELLCLASS_COLUMN_ID +
                         " integer primary key AUTOINCREMENT NOT NULL, " +
-                        SPELLCLASS_COLUMN_SPELLID+" INTEGER NOT NULL REFERENCES "+
-                        SPELL_TABLE_NAME+"("+SPELL_COLUMN_ID+"),"+
-                        SPELLCLASS_COLUMN_CLASSID+" INTEGER NOT NULL REFERENCES "+
-                        CLASS_TABLE_NAME+"("+CLASS_COLUMN_ID+")"+
+                        SPELLCLASS_COLUMN_SPELLID + " INTEGER NOT NULL REFERENCES " +
+                        SPELL_TABLE_NAME + "(" + SPELL_COLUMN_ID + ")," +
+                        SPELLCLASS_COLUMN_CLASSID + " INTEGER NOT NULL REFERENCES " +
+                        CLASS_TABLE_NAME + "(" + CLASS_COLUMN_ID + ")" +
                         ")"
         );
-        try{
+        try {
             final InputStream file = mCtx.getAssets().open("spellclass.txt");
             reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
-            while(line != null){
-                String [] values = line.split("~");
+            while (line != null) {
+                String[] values = line.split("~");
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(SPELLCLASS_COLUMN_SPELLID, Integer.parseInt(values[0]));
                 contentValues.put(SPELLCLASS_COLUMN_CLASSID, Integer.parseInt(values[1]));
@@ -263,13 +262,13 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    private void seedData(SQLiteDatabase db,String fileName, String table, String column){
+    private void seedData(SQLiteDatabase db, String fileName, String table, String column) {
         BufferedReader reader;
-        try{
+        try {
             final InputStream file = mCtx.getAssets().open(fileName);
             reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
-            while(line != null){
+            while (line != null) {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(column, line);
                 db.insert(table, null, contentValues);
@@ -280,7 +279,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<Spell> getAllSpells(){
+    public ArrayList<Spell> getAllSpells() {
         ArrayList<Spell> spell_list = new ArrayList<Spell>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME, null);
@@ -324,21 +323,148 @@ public class DBHandler extends SQLiteOpenHelper {
         return spell_list;
     }
 
-    public CastingTime getCastingTimeById(int id){
+    public Spell getSpellById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + CASTING_TABLE_NAME + " where "+
-                CASTING_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME + " where " +
+                SPELL_COLUMN_ID + "=" + id + "", null);
+        res.moveToFirst();
+        Spell currentSpell = new Spell(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_ID)),
+                res.getString(res.getColumnIndex(SPELL_COLUMN_NAME)),
+                res.getString(res.getColumnIndex(SPELL_COLUMN_DESCRIPTION)),
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_VERBAL)) == 1,
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_SOMATIC)) == 1,
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_MATERIAL)) == 1,
+                res.getString(res.getColumnIndex(SPELL_COLUMN_MATERIALNAME)),
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_CONCENTRATION)) == 1,
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_RITUAL)) == 1);
+        currentSpell.setSpellAttack(getSpellAttackById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_ATTACKID))));
+        currentSpell.setSpellCasting(getCastingTimeById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_CASTINGID))));
+        currentSpell.setSpellDamage(getDamageTypeById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_DAMAGEID))));
+        currentSpell.setSpellDuration(getDurationById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_DURATIONID))));
+
+        currentSpell.setClasses(getPlayerClassBySpellId(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_ID))
+        ));
+        currentSpell.setSpellRange(getRangeById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_RANGEID))));
+
+        currentSpell.setSpellSchool(getSpellSchoolById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_SCHOOLID))));
+        currentSpell.setSpellSource(getSourceById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_SOURCEID))));
+        currentSpell.setSpellLevel(getSpellLevelById(
+                res.getInt(res.getColumnIndex(SPELL_COLUMN_SPELLLEVELID))));
+        res.close();
+        return currentSpell;
+    }
+
+    public ArrayList<CastingTime> getCastingTimes(){
+        ArrayList<CastingTime> casting_time_list = new ArrayList<CastingTime>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            CastingTime ct = new CastingTime();
+            ct.setCastingTimeID(res.getInt(res.getColumnIndex(CASTING_COLUMN_ID)));
+            ct.setCastingTimeName(res.getString(res.getColumnIndex(CASTING_COLUMN_NAME)));
+            casting_time_list.add(ct);
+            res.moveToNext();
+        }
+        res.close();
+        return casting_time_list;
+    }
+
+    public CastingTime getCastingTimeById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + CASTING_TABLE_NAME + " where " +
+                CASTING_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         CastingTime ct = new CastingTime();
         ct.setCastingTimeID(res.getInt(res.getColumnIndex(CASTING_COLUMN_ID)));
         ct.setCastingTimeName(res.getString(res.getColumnIndex(CASTING_COLUMN_NAME)));
         return ct;
     }
-    public ArrayList<PlayerClass> getPlayerClassBySpellId(int id){
+
+    public ArrayList<PlayerClass> getPlayerClassBySpellId(int id) {
         ArrayList<PlayerClass> class_list = new ArrayList<PlayerClass>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + SPELLCLASS_TABLE_NAME +" where "+
-                SPELLCLASS_COLUMN_SPELLID + " = " +id+"", null);
+        Cursor res = db.rawQuery("select * from " + SPELLCLASS_TABLE_NAME + " where " +
+                SPELLCLASS_COLUMN_SPELLID + " = " + id + "", null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            PlayerClass pc = getPlayerClassById(res.getInt(
+                    res.getColumnIndex(SPELLCLASS_COLUMN_CLASSID)));
+            class_list.add(pc);
+            res.moveToNext();
+        }
+        res.close();
+        return class_list;
+    }
+
+    public ArrayList<DamageType> getDamageTypes() {
+        ArrayList<DamageType> damage_list = new ArrayList<DamageType>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + DAMAGE_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            DamageType dt = new DamageType();
+            dt.setDamageTypeID(res.getInt(res.getColumnIndex(DAMAGE_COLUMN_ID)));
+            dt.setDamageTypeName(res.getString(res.getColumnIndex(DAMAGE_COLUMN_NAME)));
+            damage_list.add(dt);
+            res.moveToNext();
+        }
+        res.close();
+        return damage_list;
+    }
+
+    public DamageType getDamageTypeById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + DAMAGE_TABLE_NAME + " where " +
+                DAMAGE_COLUMN_ID + "=" + id + "", null);
+        res.moveToFirst();
+        DamageType dt = new DamageType();
+        dt.setDamageTypeID(res.getInt(res.getColumnIndex(DAMAGE_COLUMN_ID)));
+        dt.setDamageTypeName(res.getString(res.getColumnIndex(DAMAGE_COLUMN_NAME)));
+        return dt;
+    }
+
+    public ArrayList<Duration> getDurations() {
+        ArrayList<Duration> duration_list = new ArrayList<Duration>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + DURATION_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            Duration d = new Duration();
+            d.setDurationID(res.getInt(res.getColumnIndex(DURATION_COLUMN_ID)));
+            d.setDurationName(res.getString(res.getColumnIndex(DURATION_COLUMN_NAME)));
+            duration_list.add(d);
+            res.moveToNext();
+        }
+        res.close();
+        return duration_list;
+    }
+
+    public Duration getDurationById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + DURATION_TABLE_NAME + " where " +
+                DURATION_COLUMN_ID + "=" + id + "", null);
+        res.moveToFirst();
+        Duration d = new Duration();
+        d.setDurationID(res.getInt(res.getColumnIndex(DURATION_COLUMN_ID)));
+        d.setDurationName(res.getString(res.getColumnIndex(DURATION_COLUMN_NAME)));
+        return d;
+    }
+
+
+    public ArrayList<PlayerClass> getPlayerClasses(){
+        ArrayList<PlayerClass> class_list = new ArrayList<PlayerClass>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + CLASS_TABLE_NAME, null);
         res.moveToFirst();
         while (!res.isAfterLast()) {
             PlayerClass currentClass = getPlayerClassById(
@@ -349,32 +475,10 @@ public class DBHandler extends SQLiteOpenHelper {
         res.close();
         return class_list;
     }
-    public DamageType getDamageTypeById(int id){
+    public PlayerClass getPlayerClassById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + DAMAGE_TABLE_NAME + " where " +
-                DAMAGE_COLUMN_ID+"="+id+"", null );
-        res.moveToFirst();
-        DamageType dt = new DamageType();
-        dt.setDamageTypeID(res.getInt(res.getColumnIndex(DAMAGE_COLUMN_ID)));
-        dt.setDamageTypeName(res.getString(res.getColumnIndex(DAMAGE_COLUMN_NAME)));
-        return dt;
-    }
-
-    public Duration getDurationById(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + DURATION_TABLE_NAME + " where " +
-                DURATION_COLUMN_ID+"="+id+"", null );
-        res.moveToFirst();
-        Duration d = new Duration();
-        d.setDurationID(res.getInt(res.getColumnIndex(DURATION_COLUMN_ID)));
-        d.setDurationName(res.getString(res.getColumnIndex(DURATION_COLUMN_NAME)));
-        return d;
-    }
-
-    public PlayerClass getPlayerClassById(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + CLASS_TABLE_NAME + " where " +
-                CLASS_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + CLASS_TABLE_NAME + " where " +
+                CLASS_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         PlayerClass pc = new PlayerClass(
                 res.getInt(res.getColumnIndex(CLASS_COLUMN_ID)),
@@ -383,59 +487,130 @@ public class DBHandler extends SQLiteOpenHelper {
         return pc;
     }
 
-    public Range getRangeById(int id){
+
+    public ArrayList<Range> getRanges() {
+        ArrayList<Range> range_list = new ArrayList<Range>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + RANGE_TABLE_NAME + " where " +
-                RANGE_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + RANGE_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            Range r = new Range();
+            r.setRangeID(res.getInt(res.getColumnIndex(RANGE_COLUMN_ID)));
+            r.setRangeName(res.getString(res.getColumnIndex(RANGE_COLUMN_NAME)));
+            range_list.add(r);
+            res.moveToNext();
+        }
+        res.close();
+        return range_list;
+    }
+    public Range getRangeById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + RANGE_TABLE_NAME + " where " +
+                RANGE_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         Range r = new Range();
         r.setRangeID(res.getInt(res.getColumnIndex(RANGE_COLUMN_ID)));
         r.setRangeName(res.getString(res.getColumnIndex(RANGE_COLUMN_NAME)));
         return r;
     }
-
-
-    public Source getSourceById(int id){
+    public ArrayList<Source> getSources() {
+        ArrayList<Source> source_list = new ArrayList<Source>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + SOURCE_TABLE_NAME + " where " +
-                SOURCE_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + SOURCE_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            Source source = new Source();
+            source.setSourceID(res.getInt(res.getColumnIndex(SOURCE_COLUMN_ID)));
+            source.setSourceName(res.getString(res.getColumnIndex(SOURCE_COLUMN_NAME)));
+            source_list.add(source);
+            res.moveToNext();
+        }
+        res.close();
+        return source_list;
+    }
+
+    public Source getSourceById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + SOURCE_TABLE_NAME + " where " +
+                SOURCE_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         Source source = new Source();
         source.setSourceID(res.getInt(res.getColumnIndex(SOURCE_COLUMN_ID)));
         source.setSourceName(res.getString(res.getColumnIndex(SOURCE_COLUMN_NAME)));
         return source;
     }
-
-    public Spell getSpellById(int id){
-        return new Spell();
+    public ArrayList<SpellAttack> getSpellAttacks() {
+        ArrayList<SpellAttack> attack_list = new ArrayList<SpellAttack>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + ATTACK_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            SpellAttack a = new SpellAttack();
+            a.setSpellAttackID(res.getInt(res.getColumnIndex(ATTACK_COLUMN_ID)));
+            a.setSpellAttackName(res.getString(res.getColumnIndex(ATTACK_COLUMN_NAME)));
+            attack_list.add(a);
+            res.moveToNext();
+        }
+        res.close();
+        return attack_list;
     }
 
-    public SpellAttack getSpellAttackById(int id){
+    public SpellAttack getSpellAttackById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + ATTACK_TABLE_NAME + " where " +
-                ATTACK_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + ATTACK_TABLE_NAME + " where " +
+                ATTACK_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         SpellAttack a = new SpellAttack();
         a.setSpellAttackID(res.getInt(res.getColumnIndex(ATTACK_COLUMN_ID)));
         a.setSpellAttackName(res.getString(res.getColumnIndex(ATTACK_COLUMN_NAME)));
         return a;
     }
-
-    public SpellLevel getSpellLevelById(int id){
+    public ArrayList<SpellLevel> getSpellLevels() {
+        ArrayList<SpellLevel> level_list = new ArrayList<SpellLevel>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + LEVEL_TABLE_NAME + " where " +
-                LEVEL_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + LEVEL_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            SpellLevel sl = new SpellLevel();
+            sl.setSpellLevelID(res.getInt(res.getColumnIndex(LEVEL_COLUMN_ID)));
+            sl.setSpellLevelName(res.getString(res.getColumnIndex(LEVEL_COLUMN_NAME)));
+            level_list.add(sl);
+            res.moveToNext();
+        }
+        res.close();
+        return level_list;
+    }
+
+    public SpellLevel getSpellLevelById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + LEVEL_TABLE_NAME + " where " +
+                LEVEL_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         SpellLevel sl = new SpellLevel();
         sl.setSpellLevelID(res.getInt(res.getColumnIndex(LEVEL_COLUMN_ID)));
         sl.setSpellLevelName(res.getString(res.getColumnIndex(LEVEL_COLUMN_NAME)));
         return sl;
     }
-
-    public SpellSchool getSpellSchoolById(int id){
+    public ArrayList<SpellSchool> getSpellSchools() {
+        ArrayList<SpellSchool> school_list = new ArrayList<SpellSchool>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + SCHOOL_TABLE_NAME + " where " +
-                SCHOOL_COLUMN_ID+"="+id+"", null );
+        Cursor res = db.rawQuery("select * from " + SCHOOL_TABLE_NAME, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            SpellSchool ss = new SpellSchool();
+            ss.setSpellSchoolID(res.getInt(res.getColumnIndex(SCHOOL_COLUMN_ID)));
+            ss.setSpellSchoolName(res.getString(res.getColumnIndex(SCHOOL_COLUMN_NAME)));
+            school_list.add(ss);
+            res.moveToNext();
+        }
+        res.close();
+        return school_list;
+    }
+
+    public SpellSchool getSpellSchoolById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + SCHOOL_TABLE_NAME + " where " +
+                SCHOOL_COLUMN_ID + "=" + id + "", null);
         res.moveToFirst();
         SpellSchool ss = new SpellSchool();
         ss.setSpellSchoolID(res.getInt(res.getColumnIndex(SCHOOL_COLUMN_ID)));
@@ -443,11 +618,11 @@ public class DBHandler extends SQLiteOpenHelper {
         return ss;
     }
 
-    public ArrayList<Spell> filterSpell(String toString) {
+    public ArrayList<Spell> searchSpells(String toString) {
         ArrayList<Spell> spell_list = new ArrayList<Spell>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME +" where "+
-                SPELL_COLUMN_NAME+" LIKE  '%"+ toString+"%'", null);
+        Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME + " where " +
+                SPELL_COLUMN_NAME + " LIKE  '%" + toString + "%'", null);
         res.moveToFirst();
         while (!res.isAfterLast()) {
             Spell currentSpell = new Spell(
