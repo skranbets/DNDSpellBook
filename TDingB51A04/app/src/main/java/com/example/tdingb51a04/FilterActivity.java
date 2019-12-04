@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -108,14 +109,16 @@ public class FilterActivity extends AppCompatActivity {
                         }
                         break;
                     case (4):
-                        if (filterOnConcentrations.contains(childPosition)) {
+                        int isConc = childPosition==1?0:1;
+                        if (filterOnConcentrations.contains(isConc)) {
                             checkBox.setChecked(false);
-                            filterOnConcentrations.remove(filterOnConcentrations.indexOf(childPosition));
+                            filterOnConcentrations.remove(filterOnConcentrations.indexOf(isConc));
                         }
                         else{
                             checkBox.setChecked(true);
-                            filterOnConcentrations.add(childPosition);
+                            filterOnConcentrations.add(isConc);
                         }
+
 //                        boolean isCheckedConc = checkBox.isChecked();
 //                        if(isCheckedConc)
 //                            checkBox.setChecked(false);
@@ -136,13 +139,16 @@ public class FilterActivity extends AppCompatActivity {
 //                        }
                         break;
                     case (5):
-                        if (filterOnRituals.contains(childPosition)) {
+
+                        int isRit = childPosition==1?0:1;
+
+                        if (filterOnRituals.contains(isRit)) {
                             checkBox.setChecked(false);
-                            filterOnRituals.remove(filterOnRituals.indexOf(childPosition));
+                            filterOnRituals.remove(filterOnRituals.indexOf(isRit));
                         }
                         else{
                             checkBox.setChecked(true);
-                            filterOnRituals.add(childPosition);
+                            filterOnRituals.add(isRit);
                         }
 //                        boolean isCheckedRit = checkBox.isChecked();
 //                        if(isCheckedRit)
@@ -210,22 +216,28 @@ public class FilterActivity extends AppCompatActivity {
         });
 
         Button searchBtn = findViewById(R.id.btnSearch);
-        searchBtn.setOnClickListener((View v)->{
-            Bundle bundle = new Bundle();
-            bundle.putIntegerArrayList("classes", classIds);
-            bundle.putIntegerArrayList("levels", levelIds);
-            bundle.putIntegerArrayList("sources", sourceIds);
-            bundle.putIntegerArrayList("schools", schoolIds);
-            bundle.putIntegerArrayList("effects", effectIds);
-            bundle.putIntegerArrayList("concentrations", filterOnConcentrations);
-            bundle.putIntegerArrayList("rituals", filterOnRituals);
-            bundle.putBoolean("isVerbal", filterOnVerbal);
-            bundle.putBoolean("isSomatic", filterOnSomatic);
-            bundle.putBoolean("isMaterial", filterOnMaterial);
-            Intent intent = new Intent(getBaseContext(), ViewAllSpells.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        });
+        ImageButton backbtn = findViewById(R.id.btnBackFilter);
+        backbtn.setOnClickListener((View v)->submitFilters());
+        searchBtn.setOnClickListener((View v)->submitFilters());
+    }
+
+    private void submitFilters() {
+        Bundle bundle = new Bundle();
+        bundle.putIntegerArrayList("classes", classIds);
+        bundle.putIntegerArrayList("levels", levelIds);
+        bundle.putIntegerArrayList("sources", sourceIds);
+        bundle.putIntegerArrayList("schools", schoolIds);
+        bundle.putIntegerArrayList("effects", effectIds);
+        bundle.putIntegerArrayList("concentrations", filterOnConcentrations);
+        bundle.putIntegerArrayList("rituals", filterOnRituals);
+        bundle.putBoolean("isVerbal", filterOnVerbal);
+        bundle.putBoolean("isSomatic", filterOnSomatic);
+        bundle.putBoolean("isMaterial", filterOnMaterial);
+//            Intent intent = new Intent(getBaseContext(), ViewAllSpells.class);
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void resetFilter() {

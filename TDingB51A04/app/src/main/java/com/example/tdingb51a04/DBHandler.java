@@ -556,14 +556,14 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Spell> searchSpells(String toString) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME + " where " +
-                SPELL_COLUMN_NAME + " LIKE  '%" + toString + "%'", null);
-
-        return loopThroughSpell(res);
-    }
+//    public ArrayList<Spell> searchSpells(String toString) {
+//
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor res = db.rawQuery("select * from " + SPELL_TABLE_NAME + " where " +
+//                SPELL_COLUMN_NAME + " LIKE  '%" + toString + "%'", null);
+//
+//        return loopThroughSpell(res);
+//    }
 
     public ArrayList<Spell> filterSpells(ArrayList<Integer> classIds,
                                          ArrayList<Integer> levelIds,
@@ -579,7 +579,7 @@ public class DBHandler extends SQLiteOpenHelper {
                                          boolean filterOnMaterial) {
         SQLiteDatabase db = this.getReadableDatabase();
         String basicSql = "select * from " + SPELL_TABLE_NAME + " where 1=1 ";
-//        basicSql += generateWhereInValues(classIds);
+        basicSql += generateWhereInValues(getSpellIDByClassId(classIds), SPELL_COLUMN_ID);
         basicSql += generateWhereInValues(levelIds, SPELL_COLUMN_SPELLLEVELID);
         basicSql += generateWhereInValues(sourceIds, SPELL_COLUMN_SOURCEID);
         basicSql += generateWhereInValues(schoolIds, SPELL_COLUMN_SCHOOLID);
@@ -597,12 +597,28 @@ public class DBHandler extends SQLiteOpenHelper {
         return loopThroughSpell(res);
 
     }
+
+    private ArrayList<Integer> getSpellIDByClassId(ArrayList<Integer> classIds) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String basicSql = "select "+SPELLCLASS_COLUMN_SPELLID+" from " + SPELLCLASS_TABLE_NAME
+                + " where 1=1 ";
+        basicSql += generateWhereInValues(classIds, SPELLCLASS_COLUMN_CLASSID);
+        ArrayList<Integer> spellid_list = new ArrayList<Integer>();
+        Cursor res = db.rawQuery(basicSql, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            spellid_list.add( res.getInt(res.getColumnIndex(SPELLCLASS_COLUMN_SPELLID))-1);
+            res.moveToNext();
+        }
+        return spellid_list;
+    }
+
     private String generateWhereInValues(ArrayList<Integer> list, String columnName){
         String whereStatement = "";
         if(list.size()!=0){
             String values = "(";
             for(int item:list){
-                values+=item+", ";
+                values+=(item+1)+", ";
             }
             values = values.substring(0, values.length() - 2);
             values += ")";
