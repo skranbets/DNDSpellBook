@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +26,26 @@ public class ViewAllSpells extends AppCompatActivity {
     ArrayList<Spell> spellList;
     GridView spellListView;
     EditText searchbar;
+    ArrayList<Integer> classIds;
+    ArrayList<Integer> levelIds;
+    ArrayList<Integer> sourceIds;
+    ArrayList<Integer> schoolIds;
+    ArrayList<Integer> effectIds;
+    ArrayList<Integer> filterOnConcentrations;
+    ArrayList<Integer> filterOnRituals;
+    boolean filterOnVerbal = false;
+    boolean filterOnSomatic = false;
+    boolean filterOnMaterial = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_spells);
         spellListView= (GridView) findViewById(R.id.spellView);
-
-        populateSpells(getIntent().getExtras());
+        resetFilter();
+        if(getIntent().getExtras() == null)
+            populateSpells(savedInstanceState);
+        else
+            populateSpells(getIntent().getExtras());
         searchbar = findViewById(R.id.txtSearch);
         searchbar.addTextChangedListener(new TextWatcher() {
 
@@ -37,8 +53,15 @@ public class ViewAllSpells extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 ArrayList<Spell> searchedSpellList = searchSpells(s.toString(),spellList);
-                myAdapter = new SpellAdapter(getApplicationContext(),searchedSpellList);
-                spellListView.setAdapter(myAdapter);
+                if(searchedSpellList.size() == 0){
+                    spellListView.setAdapter( new ArrayAdapter<String>(
+                            getApplicationContext(), android.R.layout.simple_list_item_1,
+                            new String[]{"No Spell Found"}));
+                }
+                else{
+                    myAdapter = new SpellAdapter(getApplicationContext(),searchedSpellList);
+                    spellListView.setAdapter(myAdapter);
+                }
             }
 
             @Override
@@ -77,7 +100,20 @@ public class ViewAllSpells extends AppCompatActivity {
         }
         return foundSpells;
     }
-
+    private void resetFilter() {
+        classIds = new ArrayList<Integer>();
+        levelIds = new ArrayList<Integer>();
+        sourceIds = new ArrayList<Integer>();
+        schoolIds = new ArrayList<Integer>();
+        effectIds = new ArrayList<Integer>();
+        filterOnConcentrations = new ArrayList<Integer>();
+        filterOnRituals = new ArrayList<Integer>();
+//        filterOnConcentration = false;
+//        filterOnRitual = false;
+        filterOnVerbal = false;
+        filterOnSomatic = false;
+        filterOnMaterial = false;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("Hello");
@@ -99,23 +135,45 @@ public class ViewAllSpells extends AppCompatActivity {
                 && extras.containsKey("effects") && extras.containsKey("concentrations")
                 && extras.containsKey("isVerbal") && extras.containsKey("isSomatic")
                 && extras.containsKey("isMaterial") && extras.containsKey("rituals")) {
-            spellList= dbController.filterSpells(extras.getIntegerArrayList("classes")
-                    , extras.getIntegerArrayList("levels")
-                    , extras.getIntegerArrayList("sources")
-                    , extras.getIntegerArrayList("schools")
-                    , extras.getIntegerArrayList("effects")
-                    , extras.getIntegerArrayList("concentrations")
-                    , extras.getIntegerArrayList("rituals")
-                    ,extras.getBoolean("isVerbal")
-                    ,extras.getBoolean("isSomatic")
-                    ,extras.getBoolean("isMaterial"));
+            classIds = extras.getIntegerArrayList("classes");
+            levelIds = extras.getIntegerArrayList("levels");
+            sourceIds = extras.getIntegerArrayList("sources");
+            schoolIds = extras.getIntegerArrayList("schools");
+            effectIds = extras.getIntegerArrayList("effects");
+            filterOnConcentrations = extras.getIntegerArrayList("concentrations");
+            filterOnRituals = extras.getIntegerArrayList("rituals");
+//        filterOnConcentration = false;
+//        filterOnRitual = false;
+            filterOnVerbal = extras.getBoolean("isVerbal");
+            filterOnSomatic = extras.getBoolean("isSomatic");
+            filterOnMaterial = extras.getBoolean("isMaterial");
 
-        } else {
-            spellList= dbController.getAllSpells();
         }
-        myAdapter = new SpellAdapter(getApplicationContext(),spellList);
-        spellListView.setAdapter(myAdapter);
+        spellList= dbController.filterSpells(classIds,levelIds,sourceIds,schoolIds,effectIds,
+                filterOnConcentrations,filterOnRituals,filterOnVerbal,filterOnSomatic,
+                filterOnMaterial);
+        if(spellList.size() == 0){
+            spellListView.setAdapter( new ArrayAdapter<String>(
+                    this, android.R.layout.simple_list_item_1, new String[]{"No Spell Found"}));
+        }
+        else{
+            myAdapter = new SpellAdapter(getApplicationContext(),spellList);
+            spellListView.setAdapter(myAdapter);
+        }
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList("classes", classIds);
+        outState.putIntegerArrayList("levels", levelIds);
+        outState.putIntegerArrayList("sources", sourceIds);
+        outState.putIntegerArrayList("schools", schoolIds);
+        outState.putIntegerArrayList("effects", effectIds);
+        outState.putIntegerArrayList("concentrations", filterOnConcentrations);
+        outState.putIntegerArrayList("rituals", filterOnRituals);
+        outState.putBoolean("isVerbal", filterOnVerbal);
+        outState.putBoolean("isSomatic", filterOnSomatic);
+        outState.putBoolean("isMaterial", filterOnMaterial);
+    }
 }

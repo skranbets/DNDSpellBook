@@ -12,4 +12,21 @@
     <string name="label_details_component">Components:</string>
     <string name="label_details_class">Classes:</string>
     <string name="label_details_source">Source:</string>
+    <string name="txtMenuHelp">Help</string>
+    <string name="txtMenuAbout">About</string>
+    <string name="txtAboutAuthor">By Tianwei Ding</string>
+    <string name="txtHelpList">This app displays the list of spells sorted by level, then by name.</string>
+    <string name="txtHelpSearch">You can search a spell by it\'s name using the search bar.</string>
+    <string name="txtHelpFilter">This app allows you to filter on 8 fields on the filter activity, you can combine any one of those filters:</string>
+    <string name="txtHelpFilterClass">  -  What classes can use this spell class?</string>
+    <string name="txtHelpFilterLevel">  -  What level is the spell Level?</string>
+    <string name="txtHelpFilterSource">  -  What  book did the spell originated from?</string>
+    <string name="txtHelpFilterSchool">  -  What school of the magic does the spells belongs to?</string>
+    <string name="txtHelpFilterConc">  -  Does the spell require concentration?</string>
+    <string name="txtHelpFilterRit">  -  Can the spell be cast as an ritual?</string>
+    <string name="txtHelpFilterVSM">  -  What are the components necessary for the spell (Verbal. Somatic, Material)?</string>
+    <string name="txtHelpFilterEffect">  -  What are the spell\'s effect?</string>
+    <string name="txtAboutCourse">For Programming V</string>
+    <string name="txtAbout">The apps provides an list of all of the Dungeons and Dragon 5th edition spells and allows user to filter and search spells.</string>
+    <string name="txtHelp">Help</string>
 </resources>

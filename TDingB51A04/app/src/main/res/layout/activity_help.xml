@@ -1,9 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HelpActivity">
+    android:background="@drawable/dndbg"
+    android:gravity="center"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtHelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:text="@string/txtHelp"
+                android:textAlignment="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/txtHelpList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/txtHelpList"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtHelpSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/txtHelpSearch"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtFiler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtHelpFilter"
+
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtFilterClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterClass" />
+
+            <TextView
+                android:id="@+id/txtHelpFilterLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterLevel" />
+
+            <TextView
+                android:id="@+id/txtHelpFilterSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterSource" />
+
+            <TextView
+                android:id="@+id/txtHelpFilterSchool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterSchool" />
+
+            <TextView
+                android:id="@+id/txtHelpFilterConc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterConc" />
+
+            <TextView
+                android:id="@+id/txtHelpFilterRit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterRit" />
+
+            <TextView
+                android:id="@+id/label_details_componen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/label_details_component" />
+
+            <TextView
+                android:id="@+id/txtHelpFilterEffect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/txtHelpFilterEffect" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

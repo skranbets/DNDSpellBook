@@ -22,10 +22,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LinearLayout menuview = findViewById(R.id.layoutMenuView);
-        LinearLayout menubook = findViewById(R.id.layoutMenuBook);
-        LinearLayout menuadd = findViewById(R.id.layoutMenuAdd);
+        LinearLayout menuhelp = findViewById(R.id.layoutMenuHelp);
+        LinearLayout menuAbout = findViewById(R.id.layoutMenuAbout);
         menuview.setOnClickListener((View v)->{
             Intent intent = new Intent(this, ViewAllSpells.class);
+            startActivity(intent);
+        });
+        menuhelp.setOnClickListener((View v)->{
+            Intent intent = new Intent(this, HelpActivity.class);
+            startActivity(intent);
+        });
+        menuAbout.setOnClickListener((View v)->{
+            Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
         });
     }

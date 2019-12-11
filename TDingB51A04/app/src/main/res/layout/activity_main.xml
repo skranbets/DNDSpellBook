@@ -44,7 +44,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutMenuBook"
+        android:id="@+id/layoutMenuHelp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".25"
@@ -52,17 +52,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtMenuBook"
+            android:id="@+id/txtMenuHelp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nodesto_caps"
             android:gravity="center"
-            android:text="@string/txtMenuBook"
+            android:text="@string/txtMenuHelp"
             android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutMenuAdd"
+        android:id="@+id/layoutMenuAbout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".25"
@@ -70,12 +70,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtMenuAdd"
+            android:id="@+id/txtMenuAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nodesto_caps"
             android:gravity="center"
-            android:text="@string/txtMenuAdd"
+            android:text="@string/txtMenuAbout"
             android:textSize="30sp" />
     </LinearLayout>
     <LinearLayout

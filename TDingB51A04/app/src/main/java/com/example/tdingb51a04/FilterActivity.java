@@ -52,11 +52,29 @@ public class FilterActivity extends AppCompatActivity {
         // preparing list data
         prepareListData();
 
-        listAdapter = new FilterListAdapter(this, listDataHeader, listDataChild);
+        resetFilter();
+        if(savedInstanceState!=null){
+            classIds = savedInstanceState.getIntegerArrayList("classes");
+            levelIds = savedInstanceState.getIntegerArrayList("levels");
+            sourceIds = savedInstanceState.getIntegerArrayList("sources");
+            schoolIds = savedInstanceState.getIntegerArrayList("schools");
+            effectIds = savedInstanceState.getIntegerArrayList("effects");
+            filterOnConcentrations = savedInstanceState.getIntegerArrayList("concentrations");
+            filterOnRituals = savedInstanceState.getIntegerArrayList("rituals");
+//        filterOnConcentration = false;
+//        filterOnRitual = false;
+            filterOnVerbal = savedInstanceState.getBoolean("isVerbal");
+            filterOnSomatic = savedInstanceState.getBoolean("isSomatic");
+            filterOnMaterial = savedInstanceState.getBoolean("isMaterial");
+        }
 
         // setting list adapter
+        listAdapter = new FilterListAdapter(this, listDataHeader, listDataChild, classIds,
+                levelIds, sourceIds, schoolIds, effectIds, filterOnConcentrations, filterOnRituals,
+                filterOnVerbal, filterOnSomatic, filterOnMaterial);
+
+
         expListView.setAdapter(listAdapter);
-        resetFilter();
         expListView.setOnChildClickListener(new ExpandableListView.
                 OnChildClickListener() {
 
@@ -66,46 +84,55 @@ public class FilterActivity extends AppCompatActivity {
 //                FilterListViewHandler viewHolder = (FilterListViewHandler) v
 //                        .getTag();
 //                CheckBox checkBox = viewHolder.getCheckBox();
+                String displaymsg = "";
                 CheckBox checkBox = (CheckBox)((LinearLayout)v).getChildAt(1);
                 switch (groupPosition) {
                     case (0):
                         if (classIds.contains(childPosition)){
                             checkBox.setChecked(false);
                             classIds.remove(classIds.indexOf(childPosition));
+                            displaymsg = "Unselected";
                         }
                         else {
                             checkBox.setChecked(true);
                             classIds.add(childPosition);
+                            displaymsg = "Selected";
                         }
                         break;
                     case (1):
                         if (levelIds.contains(childPosition)) {
                             checkBox.setChecked(false);
                             levelIds.remove(levelIds.indexOf(childPosition));
+                            displaymsg = "Unselected";
                         }
                         else {
                             checkBox.setChecked(true);
                             levelIds.add(childPosition);
+                            displaymsg = "Selected";
                         }
                         break;
                     case (2):
                         if (sourceIds.contains(childPosition)) {
                             checkBox.setChecked(false);
                             sourceIds.remove(sourceIds.indexOf(childPosition));
+                            displaymsg = "Unselected";
                         }
                         else{
                             checkBox.setChecked(true);
                             sourceIds.add(childPosition);
+                            displaymsg = "Selected";
                         }
                         break;
                     case (3):
                         if (schoolIds.contains(childPosition)) {
                             checkBox.setChecked(false);
                             schoolIds.remove(schoolIds.indexOf(childPosition));
+                            displaymsg = "Unselected";
                         }
                         else{
                             checkBox.setChecked(true);
                             schoolIds.add(childPosition);
+                            displaymsg = "Selected";
                         }
                         break;
                     case (4):
@@ -113,10 +140,12 @@ public class FilterActivity extends AppCompatActivity {
                         if (filterOnConcentrations.contains(isConc)) {
                             checkBox.setChecked(false);
                             filterOnConcentrations.remove(filterOnConcentrations.indexOf(isConc));
+                            displaymsg = "Unselected";
                         }
                         else{
                             checkBox.setChecked(true);
                             filterOnConcentrations.add(isConc);
+                            displaymsg = "Selected";
                         }
 
 //                        boolean isCheckedConc = checkBox.isChecked();
@@ -145,10 +174,12 @@ public class FilterActivity extends AppCompatActivity {
                         if (filterOnRituals.contains(isRit)) {
                             checkBox.setChecked(false);
                             filterOnRituals.remove(filterOnRituals.indexOf(isRit));
+                            displaymsg = "Unselected";
                         }
                         else{
                             checkBox.setChecked(true);
                             filterOnRituals.add(isRit);
+                            displaymsg = "Selected";
                         }
 //                        boolean isCheckedRit = checkBox.isChecked();
 //                        if(isCheckedRit)
@@ -172,24 +203,36 @@ public class FilterActivity extends AppCompatActivity {
                     case (6):
                         switch (childPosition) {
                             case (0):
-                                if (filterOnVerbal)
+                                if (filterOnVerbal){
                                     filterOnVerbal = false;
-                                else
+                                    displaymsg = "Unselected";
+                                }
+                                else{
                                     filterOnVerbal = true;
+                                    displaymsg = "Selected";
+                                }
                                 checkBox.setChecked(filterOnVerbal);
                                 break;
                             case (1):
-                                if (filterOnSomatic)
+                                if (filterOnSomatic){
                                     filterOnSomatic = false;
-                                else
-                                    filterOnSomatic = true;
+                                    displaymsg = "Unselected";
+                                }
+                                else{
+                                filterOnSomatic = true;
+                                displaymsg = "Selected";
+                                }
                                 checkBox.setChecked(filterOnSomatic);
                                 break;
                             case (2):
-                                if (filterOnMaterial)
+                                if (filterOnMaterial){
                                     filterOnMaterial = false;
-                                else
+                                    displaymsg = "Unselected";
+                                }
+                                else{
                                     filterOnMaterial = true;
+                                    displaymsg = "Selected";
+                                }
                                 checkBox.setChecked(filterOnMaterial);
                         }
                         break;
@@ -199,16 +242,18 @@ public class FilterActivity extends AppCompatActivity {
                         if (effectIds.contains(childPosition)) {
                             checkBox.setChecked(false);
                             effectIds.remove(effectIds.indexOf(childPosition));
+                            displaymsg = "Unselected";
                         }
                         else{
                             checkBox.setChecked(true);
                             effectIds.add(childPosition);
+                            displaymsg = "Selected";
                         }
                         break;
                 }
                 Toast.makeText(
                         getApplicationContext(),
-                        listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),
+                        displaymsg+" " +listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),
                         Toast.LENGTH_SHORT).show();
 
                 return false;
@@ -318,5 +363,20 @@ public class FilterActivity extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(5), ritualNameList);
         listDataChild.put(listDataHeader.get(6), componentNameList);
         listDataChild.put(listDataHeader.get(7), effectNameList);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList("classes", classIds);
+        outState.putIntegerArrayList("levels", levelIds);
+        outState.putIntegerArrayList("sources", sourceIds);
+        outState.putIntegerArrayList("schools", schoolIds);
+        outState.putIntegerArrayList("effects", effectIds);
+        outState.putIntegerArrayList("concentrations", filterOnConcentrations);
+        outState.putIntegerArrayList("rituals", filterOnRituals);
+        outState.putBoolean("isVerbal", filterOnVerbal);
+        outState.putBoolean("isSomatic", filterOnSomatic);
+        outState.putBoolean("isMaterial", filterOnMaterial);
     }
 }

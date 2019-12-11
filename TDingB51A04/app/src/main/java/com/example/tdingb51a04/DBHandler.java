@@ -584,8 +584,8 @@ public class DBHandler extends SQLiteOpenHelper {
         basicSql += generateWhereInValues(sourceIds, SPELL_COLUMN_SOURCEID);
         basicSql += generateWhereInValues(schoolIds, SPELL_COLUMN_SCHOOLID);
         basicSql += generateWhereInValues(effectIds,SPELL_COLUMN_DAMAGEID);
-        basicSql += generateWhereInValues(filterOnConcentrations, SPELL_COLUMN_CONCENTRATION);
-        basicSql += generateWhereInValues(filterOnRituals, SPELL_COLUMN_RITUAL);
+        basicSql += generateWhereInValuesBoolean(filterOnConcentrations, SPELL_COLUMN_CONCENTRATION);
+        basicSql += generateWhereInValuesBoolean(filterOnRituals, SPELL_COLUMN_RITUAL);
         if(filterOnVerbal)
             basicSql += "AND "+SPELL_COLUMN_VERBAL+" = 1 ";
         if(filterOnSomatic)
@@ -612,7 +612,19 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return spellid_list;
     }
-
+    private String generateWhereInValuesBoolean(ArrayList<Integer> list, String columnName){
+        String whereStatement = "";
+        if(list.size()!=0){
+            String values = "(";
+            for(int item:list){
+                values+=(item)+", ";
+            }
+            values = values.substring(0, values.length() - 2);
+            values += ")";
+            whereStatement += "AND "+columnName+" IN "+values+" ";
+        }
+        return whereStatement;
+    }
     private String generateWhereInValues(ArrayList<Integer> list, String columnName){
         String whereStatement = "";
         if(list.size()!=0){
