@@ -27,9 +27,11 @@ public class FilterListAdapter extends BaseExpandableListAdapter {
     private ArrayList<Integer> filterOnRituals;
     //    boolean filterOnConcentration;
 //    boolean filterOnRitual;
-    private boolean filterOnVerbal;
-    private boolean filterOnSomatic;
-    private boolean filterOnMaterial;
+
+    ArrayList<Integer> filterOnComponents;
+//    private boolean filterOnVerbal;
+//    private boolean filterOnSomatic;
+//    private boolean filterOnMaterial;
     private TextView lblnumber;
 
 
@@ -40,8 +42,7 @@ public class FilterListAdapter extends BaseExpandableListAdapter {
                              ArrayList<Integer> effectIds,
                              ArrayList<Integer> filterOnConcentrations,
                              ArrayList<Integer> filterOnRituals,
-                             boolean filterOnVerbal, boolean filterOnSomatic,
-                             boolean filterOnMaterial) {
+                             ArrayList<Integer> filterOnComponents) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -52,9 +53,10 @@ public class FilterListAdapter extends BaseExpandableListAdapter {
         this.effectIds = effectIds;
         this.filterOnConcentrations = filterOnConcentrations;
         this.filterOnRituals = filterOnRituals;
-        this.filterOnVerbal = filterOnVerbal;
-        this.filterOnSomatic = filterOnSomatic;
-        this.filterOnMaterial = filterOnMaterial;
+//        this.filterOnVerbal = filterOnVerbal;
+//        this.filterOnSomatic = filterOnSomatic;
+//        this.filterOnMaterial = filterOnMaterial;
+        this.filterOnComponents = filterOnComponents;
 
     }
     @Override
@@ -122,24 +124,28 @@ public class FilterListAdapter extends BaseExpandableListAdapter {
                 lblnumber.setText(filterOnRituals.size()+"");
                 break;
             case 6:
-                switch (childPosition){
-                    case 0:
-                        checkBox.setChecked(filterOnVerbal);
-                        break;
-                    case 1:
-                        checkBox.setChecked(filterOnSomatic);
-                        break;
-                    case 2:
-                        checkBox.setChecked(filterOnMaterial);
-                        break;
-                }
-                int num = 0;
-                if(filterOnVerbal)
-                    num++;
-                if(filterOnSomatic)
-                    num++;
-                if(filterOnMaterial)
-                    num++;
+                checkBox.setChecked(filterOnComponents.get(childPosition) == 1);
+//                switch (childPosition){
+//                    case 0:
+//                        checkBox.setChecked(filterOnComponents.get(0));
+//                        break;
+//                    case 1:
+//                        checkBox.setChecked(filterOnSomatic);
+//                        break;
+//                    case 2:
+//                        checkBox.setChecked(filterOnMaterial);
+//                        break;
+//                }
+//                int num = 0;
+//                if(filterOnVerbal)
+//                    num++;
+//                if(filterOnSomatic)
+//                    num++;
+//                if(filterOnMaterial)
+//                    num++;
+                int num  = 0;
+                for(int d : filterOnComponents)
+                    num += d;
                 lblnumber.setText(num+"");
                 break;
             case 7:
@@ -207,13 +213,9 @@ public class FilterListAdapter extends BaseExpandableListAdapter {
                 lblNum.setText(filterOnRituals.size()+"");
                 break;
             case 6:
-                int num = 0;
-                if(filterOnVerbal)
-                    num++;
-                if(filterOnSomatic)
-                    num++;
-                if(filterOnMaterial)
-                    num++;
+                int num  = 0;
+                for(int d : filterOnComponents)
+                    num += d;
                 lblNum.setText(num+"");
                 break;
             case 7:

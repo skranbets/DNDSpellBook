@@ -30,11 +30,12 @@ public class FilterActivity extends AppCompatActivity {
     ArrayList<Integer> effectIds;
     ArrayList<Integer> filterOnConcentrations;
     ArrayList<Integer> filterOnRituals;
+    ArrayList<Integer> filterOnComponents;
 //    boolean filterOnConcentration;
 //    boolean filterOnRitual;
-    boolean filterOnVerbal;
-    boolean filterOnSomatic;
-    boolean filterOnMaterial;
+//    boolean filterOnVerbal;
+//    boolean filterOnSomatic;
+//    boolean filterOnMaterial;
 
 
 
@@ -63,15 +64,16 @@ public class FilterActivity extends AppCompatActivity {
             filterOnRituals = savedInstanceState.getIntegerArrayList("rituals");
 //        filterOnConcentration = false;
 //        filterOnRitual = false;
-            filterOnVerbal = savedInstanceState.getBoolean("isVerbal");
-            filterOnSomatic = savedInstanceState.getBoolean("isSomatic");
-            filterOnMaterial = savedInstanceState.getBoolean("isMaterial");
+            filterOnComponents = savedInstanceState.getIntegerArrayList("components");
+//            filterOnVerbal = savedInstanceState.getBoolean("isVerbal");
+//            filterOnSomatic = savedInstanceState.getBoolean("isSomatic");
+//            filterOnMaterial = savedInstanceState.getBoolean("isMaterial");
         }
 
         // setting list adapter
         listAdapter = new FilterListAdapter(this, listDataHeader, listDataChild, classIds,
                 levelIds, sourceIds, schoolIds, effectIds, filterOnConcentrations, filterOnRituals,
-                filterOnVerbal, filterOnSomatic, filterOnMaterial);
+                filterOnComponents);
 
 
         expListView.setAdapter(listAdapter);
@@ -201,40 +203,51 @@ public class FilterActivity extends AppCompatActivity {
 //                        }
                         break;
                     case (6):
-                        switch (childPosition) {
-                            case (0):
-                                if (filterOnVerbal){
-                                    filterOnVerbal = false;
-                                    displaymsg = "Unselected";
-                                }
-                                else{
-                                    filterOnVerbal = true;
-                                    displaymsg = "Selected";
-                                }
-                                checkBox.setChecked(filterOnVerbal);
-                                break;
-                            case (1):
-                                if (filterOnSomatic){
-                                    filterOnSomatic = false;
-                                    displaymsg = "Unselected";
-                                }
-                                else{
-                                filterOnSomatic = true;
-                                displaymsg = "Selected";
-                                }
-                                checkBox.setChecked(filterOnSomatic);
-                                break;
-                            case (2):
-                                if (filterOnMaterial){
-                                    filterOnMaterial = false;
-                                    displaymsg = "Unselected";
-                                }
-                                else{
-                                    filterOnMaterial = true;
-                                    displaymsg = "Selected";
-                                }
-                                checkBox.setChecked(filterOnMaterial);
+                        if(filterOnComponents.get(childPosition)==0){
+                            filterOnComponents.set(childPosition, 1);
+                            checkBox.setChecked(true);
+                            displaymsg = "Selected";
                         }
+                        else{
+                            filterOnComponents.set(childPosition, 0);
+                            checkBox.setChecked(false);
+                            displaymsg = "Unselected";
+                        }
+//                        switch (childPosition) {
+//                            case (0):
+//                                if (filterOnVerbal){
+//                                    filterOnVerbal = false;
+//                                    displaymsg = "Unselected";
+//                                }
+//                                else{
+//                                    filterOnVerbal = true;
+//
+//                                    displaymsg = "Selected";
+//                                }
+//                                checkBox.setChecked(filterOnVerbal);
+//                                break;
+//                            case (1):
+//                                if (filterOnSomatic){
+//                                    filterOnSomatic = false;
+//                                    displaymsg = "Unselected";
+//                                }
+//                                else{
+//                                    filterOnSomatic = true;
+//                                    displaymsg = "Selected";
+//                                }
+//                                checkBox.setChecked(filterOnSomatic);
+//                                break;
+//                            case (2):
+//                                if (filterOnMaterial){
+//                                    filterOnMaterial = false;
+//                                    displaymsg = "Unselected";
+//                                }
+//                                else{
+//                                    filterOnMaterial = true;
+//                                    displaymsg = "Selected";
+//                                }
+//                                checkBox.setChecked(filterOnMaterial);
+//                        }
                         break;
 
 
@@ -275,9 +288,11 @@ public class FilterActivity extends AppCompatActivity {
         bundle.putIntegerArrayList("effects", effectIds);
         bundle.putIntegerArrayList("concentrations", filterOnConcentrations);
         bundle.putIntegerArrayList("rituals", filterOnRituals);
-        bundle.putBoolean("isVerbal", filterOnVerbal);
-        bundle.putBoolean("isSomatic", filterOnSomatic);
-        bundle.putBoolean("isMaterial", filterOnMaterial);
+        bundle.putIntegerArrayList("components", filterOnComponents);
+
+//        bundle.putBoolean("isVerbal", filterOnVerbal);
+//        bundle.putBoolean("isSomatic", filterOnSomatic);
+//        bundle.putBoolean("isMaterial", filterOnMaterial);
 //            Intent intent = new Intent(getBaseContext(), ViewAllSpells.class);
         Intent intent = new Intent();
         intent.putExtras(bundle);
@@ -293,11 +308,15 @@ public class FilterActivity extends AppCompatActivity {
         effectIds = new ArrayList<Integer>();
         filterOnConcentrations = new ArrayList<Integer>();
         filterOnRituals = new ArrayList<Integer>();
+        filterOnComponents = new ArrayList<Integer>();
+        filterOnComponents.add(0);
+        filterOnComponents.add(0);
+        filterOnComponents.add(0);
 //        filterOnConcentration = false;
 //        filterOnRitual = false;
-        filterOnVerbal = false;
-        filterOnSomatic = false;
-        filterOnMaterial = false;
+//        filterOnVerbal = false;
+//        filterOnSomatic = false;
+//        filterOnMaterial = false;
     }
 
 
@@ -375,8 +394,9 @@ public class FilterActivity extends AppCompatActivity {
         outState.putIntegerArrayList("effects", effectIds);
         outState.putIntegerArrayList("concentrations", filterOnConcentrations);
         outState.putIntegerArrayList("rituals", filterOnRituals);
-        outState.putBoolean("isVerbal", filterOnVerbal);
-        outState.putBoolean("isSomatic", filterOnSomatic);
-        outState.putBoolean("isMaterial", filterOnMaterial);
+        outState.putIntegerArrayList("components", filterOnComponents);
+//        outState.putBoolean("isVerbal", filterOnVerbal);
+//        outState.putBoolean("isSomatic", filterOnSomatic);
+//        outState.putBoolean("isMaterial", filterOnMaterial);
     }
 }

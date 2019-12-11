@@ -33,9 +33,10 @@ public class ViewAllSpells extends AppCompatActivity {
     ArrayList<Integer> effectIds;
     ArrayList<Integer> filterOnConcentrations;
     ArrayList<Integer> filterOnRituals;
-    boolean filterOnVerbal = false;
-    boolean filterOnSomatic = false;
-    boolean filterOnMaterial = false;
+    ArrayList<Integer> filterOnComponents;
+//    boolean filterOnVerbal = false;
+//    boolean filterOnSomatic = false;
+//    boolean filterOnMaterial = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,11 +109,15 @@ public class ViewAllSpells extends AppCompatActivity {
         effectIds = new ArrayList<Integer>();
         filterOnConcentrations = new ArrayList<Integer>();
         filterOnRituals = new ArrayList<Integer>();
+        filterOnComponents = new ArrayList<Integer>();
+        filterOnComponents.add(0);
+        filterOnComponents.add(0);
+        filterOnComponents.add(0);
 //        filterOnConcentration = false;
-//        filterOnRitual = false;
-        filterOnVerbal = false;
-        filterOnSomatic = false;
-        filterOnMaterial = false;
+//        filterOnRitual = false;filterOnComponents
+//        filterOnVerbal = false;
+//        filterOnSomatic = false;
+//        filterOnMaterial = false;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -133,8 +138,7 @@ public class ViewAllSpells extends AppCompatActivity {
         if (extras!= null && extras.containsKey("classes") && extras.containsKey("levels")
                 && extras.containsKey("sources") && extras.containsKey("schools")
                 && extras.containsKey("effects") && extras.containsKey("concentrations")
-                && extras.containsKey("isVerbal") && extras.containsKey("isSomatic")
-                && extras.containsKey("isMaterial") && extras.containsKey("rituals")) {
+                && extras.containsKey("components") && extras.containsKey("rituals")) {
             classIds = extras.getIntegerArrayList("classes");
             levelIds = extras.getIntegerArrayList("levels");
             sourceIds = extras.getIntegerArrayList("sources");
@@ -144,14 +148,14 @@ public class ViewAllSpells extends AppCompatActivity {
             filterOnRituals = extras.getIntegerArrayList("rituals");
 //        filterOnConcentration = false;
 //        filterOnRitual = false;
-            filterOnVerbal = extras.getBoolean("isVerbal");
-            filterOnSomatic = extras.getBoolean("isSomatic");
-            filterOnMaterial = extras.getBoolean("isMaterial");
+            filterOnComponents = extras.getIntegerArrayList("components");
+//            filterOnVerbal = extras.getBoolean("isVerbal");
+//            filterOnSomatic = extras.getBoolean("isSomatic");
+//            filterOnMaterial = extras.getBoolean("isMaterial");
 
         }
         spellList= dbController.filterSpells(classIds,levelIds,sourceIds,schoolIds,effectIds,
-                filterOnConcentrations,filterOnRituals,filterOnVerbal,filterOnSomatic,
-                filterOnMaterial);
+                filterOnConcentrations,filterOnRituals,filterOnComponents);
         if(spellList.size() == 0){
             spellListView.setAdapter( new ArrayAdapter<String>(
                     this, android.R.layout.simple_list_item_1, new String[]{"No Spell Found"}));
@@ -172,8 +176,9 @@ public class ViewAllSpells extends AppCompatActivity {
         outState.putIntegerArrayList("effects", effectIds);
         outState.putIntegerArrayList("concentrations", filterOnConcentrations);
         outState.putIntegerArrayList("rituals", filterOnRituals);
-        outState.putBoolean("isVerbal", filterOnVerbal);
-        outState.putBoolean("isSomatic", filterOnSomatic);
-        outState.putBoolean("isMaterial", filterOnMaterial);
+        outState.putIntegerArrayList("components", filterOnComponents);
+//        outState.putBoolean("isVerbal", filterOnVerbal);
+//        outState.putBoolean("isSomatic", filterOnSomatic);
+//        outState.putBoolean("isMaterial", filterOnMaterial);
     }
 }

@@ -572,11 +572,13 @@ public class DBHandler extends SQLiteOpenHelper {
                                          ArrayList<Integer> effectIds,
                                          ArrayList<Integer> filterOnConcentrations,
                                          ArrayList<Integer> filterOnRituals,
+                                         ArrayList<Integer> filterOnComponents
 //    boolean filterOnConcentration;
 //    boolean filterOnRitual;
-                                         boolean filterOnVerbal,
-                                         boolean filterOnSomatic,
-                                         boolean filterOnMaterial) {
+//                                         boolean filterOnVerbal,
+//                                         boolean filterOnSomatic,
+//                                         boolean filterOnMaterial
+                                         ) {
         SQLiteDatabase db = this.getReadableDatabase();
         String basicSql = "select * from " + SPELL_TABLE_NAME + " where 1=1 ";
         basicSql += generateWhereInValues(getSpellIDByClassId(classIds), SPELL_COLUMN_ID);
@@ -586,11 +588,11 @@ public class DBHandler extends SQLiteOpenHelper {
         basicSql += generateWhereInValues(effectIds,SPELL_COLUMN_DAMAGEID);
         basicSql += generateWhereInValuesBoolean(filterOnConcentrations, SPELL_COLUMN_CONCENTRATION);
         basicSql += generateWhereInValuesBoolean(filterOnRituals, SPELL_COLUMN_RITUAL);
-        if(filterOnVerbal)
+        if(filterOnComponents.get(0) ==1)
             basicSql += "AND "+SPELL_COLUMN_VERBAL+" = 1 ";
-        if(filterOnSomatic)
+        if(filterOnComponents.get(1) ==1)
             basicSql += "AND "+SPELL_COLUMN_SOMATIC+" = 1 ";
-        if(filterOnMaterial)
+        if(filterOnComponents.get(2) ==1)
             basicSql += "AND "+SPELL_COLUMN_MATERIAL+" = 1 ";
 
         Cursor res = db.rawQuery(basicSql, null);
