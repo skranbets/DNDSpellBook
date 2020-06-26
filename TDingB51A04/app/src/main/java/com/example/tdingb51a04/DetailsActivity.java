@@ -32,22 +32,24 @@ public class DetailsActivity extends AppCompatActivity {
         txtSpellLevel.setText(levelText);
 
         TextView txtCasting = findViewById(R.id.txtDetailsSpellCasting);
-        txtCasting.setText(" "+selectedSpell.getSpellCasting().getCastingTimeName());
+        txtCasting.setText(selectedSpell.getSpellCasting().getCastingTimeName());
 
         TextView txtRange = findViewById(R.id.txtDetailsSpellRange);
-        txtRange.setText(" "+selectedSpell.getSpellRange().getRangeName());
+        txtRange.setText(selectedSpell.getSpellRange().getRangeName());
 
         TextView txtComponent = findViewById(R.id.txtDetailsSpellComponent);
         String componentString = "";
-        componentString += selectedSpell.isSpellIsVerbal() ? " V" : "";
-        componentString += selectedSpell.isSpellIsSomatic() ?  " S" : "";
-        componentString += selectedSpell.isSpellIsMaterial() ? " M("+
+        componentString += selectedSpell.isSpellIsVerbal() ? selectedSpell.isSpellIsSomatic()?"V, "
+                :"V" : "";
+        componentString += selectedSpell.isSpellIsSomatic() ? selectedSpell.isSpellIsMaterial() ?
+                "S, ":"S" : "";
+        componentString += selectedSpell.isSpellIsMaterial() ? "M("+
                 selectedSpell.getSpellMaterial()+")" : "";
         txtComponent.setText(componentString);
 
         TextView txtDuration = findViewById(R.id.txtDetailsSpellDuration);
         String durationString = "";
-        durationString += selectedSpell.isSpellIsConcentration() ? " Concentration, Up to "+
+        durationString += selectedSpell.isSpellIsConcentration() ? "Concentration, Up to "+
                 selectedSpell.getSpellDuration().getDurationName()+"" :
                 selectedSpell.getSpellDuration().getDurationName();
         txtDuration.setText(durationString);
@@ -79,9 +81,9 @@ public class DetailsActivity extends AppCompatActivity {
         b.append(spellDesc);
         txtDescription.setText(b);
         TextView txtClass = findViewById(R.id.txtDetailsSpellClasses);
-        txtClass.setText(" "+selectedSpell.getClassesAsName());
+        txtClass.setText(selectedSpell.getClassesAsName());
 
         TextView txtSource = findViewById(R.id.txtDetailsSpellSource);
-        txtSource.setText(" "+selectedSpell.getSpellSource().getSourceName());
+        txtSource.setText(selectedSpell.getSpellSource().getSourceName());
     }
 }

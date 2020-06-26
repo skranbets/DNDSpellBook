@@ -39,11 +39,23 @@ public class SpellAdapter  extends BaseAdapter {
         TextView txtSpellClass = view.findViewById(R.id.txtClassList);
         TextView txtAction = view.findViewById(R.id.txtActionList);
         TextView txtConc = view.findViewById(R.id.txtConcentrationList);
-        txtSpellName.setText(spells.get(i).getName());
-        txtSpellLevel.setText(spells.get(i).getSpellLevel().getSpellLevelName());
-        txtSpellClass.setText(spells.get(i).getClassesAsName());
-        txtAction.setText(spells.get(i).getSpellCasting().getCastingTimeName());
-        if(spells.get(i).isSpellIsConcentration()){
+        Spell currentSpell = spells.get(i);
+        txtSpellName.setText(currentSpell.getName());
+        String spellLevelName = "";
+        if(spells.get(i).getSpellLevel().getSpellLevelID() == 1){
+            spellLevelName += currentSpell.getSpellSchool().getSpellSchoolName()+" "+
+                    currentSpell.getSpellLevel().getSpellLevelName();
+        }
+        else{
+            spellLevelName += currentSpell.getSpellLevel().getSpellLevelName()+" "+
+                    currentSpell.getSpellSchool().getSpellSchoolName();
+        }
+        if(currentSpell.isSpellIsRitual())
+            spellLevelName+= " (Ritual)";
+        txtSpellLevel.setText(spellLevelName);
+        txtSpellClass.setText(currentSpell.getClassesAsName());
+        txtAction.setText(currentSpell.getSpellCasting().getCastingTimeName());
+        if(currentSpell.isSpellIsConcentration()){
             txtConc.setText("C");
         }
         else{

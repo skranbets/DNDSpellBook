@@ -24,6 +24,7 @@ public class ViewAllSpells extends AppCompatActivity {
     DBHandler dbController;
     SpellAdapter myAdapter;
     ArrayList<Spell> spellList;
+    ArrayList<Spell> searchedSpellList;
     GridView spellListView;
     EditText searchbar;
     ArrayList<Integer> classIds;
@@ -53,7 +54,7 @@ public class ViewAllSpells extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
-                ArrayList<Spell> searchedSpellList = searchSpells(s.toString(),spellList);
+                searchedSpellList = searchSpells(s.toString(),spellList);
                 if(searchedSpellList.size() == 0){
                     spellListView.setAdapter( new ArrayAdapter<String>(
                             getApplicationContext(), android.R.layout.simple_list_item_1,
@@ -87,7 +88,7 @@ public class ViewAllSpells extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Intent i = new Intent(getBaseContext(), DetailsActivity.class);
-                i.putExtra("spellID",spellList.get(position).getSpellID());
+                i.putExtra("spellID",searchedSpellList.get(position).getSpellID());
                 startActivity(i);
         }
         });
@@ -156,12 +157,13 @@ public class ViewAllSpells extends AppCompatActivity {
         }
         spellList= dbController.filterSpells(classIds,levelIds,sourceIds,schoolIds,effectIds,
                 filterOnConcentrations,filterOnRituals,filterOnComponents);
+        searchedSpellList = spellList;
         if(spellList.size() == 0){
             spellListView.setAdapter( new ArrayAdapter<String>(
                     this, android.R.layout.simple_list_item_1, new String[]{"No Spell Found"}));
         }
         else{
-            myAdapter = new SpellAdapter(getApplicationContext(),spellList);
+            myAdapter = new SpellAdapter(getApplicationContext(),searchedSpellList);
             spellListView.setAdapter(myAdapter);
         }
     }

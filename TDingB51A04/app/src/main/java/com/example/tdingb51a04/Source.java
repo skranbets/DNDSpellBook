@@ -17,6 +17,9 @@ public class Source {
     }
 
     public String getSourceName() {
-        return SourceName;
+        if(SourceID == 2)
+            return SourceName +", "+ "Xanathar's Guide to Everything";
+        else
+            return SourceName;
     }
 }

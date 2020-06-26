@@ -58,6 +58,7 @@
                 <TextView
                     android:id="@+id/txtDetailsSpellCasting"
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/scaly_sans"
                     android:textSize="18sp" />
@@ -81,6 +82,7 @@
                     android:id="@+id/txtDetailsSpellRange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="@font/scaly_sans"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -104,6 +106,7 @@
                     android:id="@+id/txtDetailsSpellComponent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="@font/scaly_sans"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -127,6 +130,7 @@
                     android:id="@+id/txtDetailsSpellDuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="@font/scaly_sans"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -160,6 +164,7 @@
                     android:id="@+id/txtDetailsSpellClasses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="@font/scaly_sans"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -183,6 +188,7 @@
                     android:id="@+id/txtDetailsSpellSource"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="@font/scaly_sans"
                     android:textSize="18sp" />
             </LinearLayout>

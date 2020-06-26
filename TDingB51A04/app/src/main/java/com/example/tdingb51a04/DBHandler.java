@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 15;
     private Context mCtx; //<-- declare a Context reference
     private static final String DATABASE_NAME = "DnDSpells.db";
 
@@ -186,7 +186,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         BufferedReader reader;
         try {
-            final InputStream file = mCtx.getAssets().open("spellDummy.txt");
+            final InputStream file = mCtx.getAssets().open("spell.txt");
             reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
             while (line != null) {
@@ -226,7 +226,7 @@ public class DBHandler extends SQLiteOpenHelper {
                         ")"
         );
         try {
-            final InputStream file = mCtx.getAssets().open("spellclassDummy.txt");
+            final InputStream file = mCtx.getAssets().open("spellclass.txt");
             reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
             while (line != null) {
@@ -632,6 +632,8 @@ public class DBHandler extends SQLiteOpenHelper {
         if(list.size()!=0){
             String values = "(";
             for(int item:list){
+                if(item == 3 && columnName.equals(SPELL_COLUMN_SOURCEID))
+                    values+=2+", ";
                 values+=(item+1)+", ";
             }
             values = values.substring(0, values.length() - 2);
